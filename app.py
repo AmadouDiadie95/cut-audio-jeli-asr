@@ -14,21 +14,33 @@ bambara_train = bambara["train"]
 # print(bambara_train.to_list()) # give format : {path: "", sentence: ""}[]
 
 
-AudioSegment.converter = "B:/ffmpeg-master-latest-win64-gpl/bin/ffmpeg.exe"
-utils.get_prober_name = get_prober_name
-song = AudioSegment.from_wav("griots_r1_2.wav")
+# AudioSegment.converter = "B:/ffmpeg-master-latest-win64-gpl/bin/ffmpeg.exe"
+# utils.get_prober_name = get_prober_name
+# song = AudioSegment.from_wav("griots_r1_2.wav")
 #song = AudioSegment.from_file("griots_r1_2.wav", format="wav")
+# Set the path to the FFmpeg converter
+AudioSegment.converter = "B:/ffmpeg-master-latest-win64-gpl/bin/ffmpeg.exe"
+
+# Load the audio
+song = AudioSegment.from_wav("./griots_r1/griots_r1_4.wav")
+
+# Change the sampling rate from 48000 to 16000
+new_song = song.set_frame_rate(16000)
+
+# Save the modified audio
+# new_song.export("griots_r1_2_16k.wav", format="wav")
+
 
 
 # pydub does things in milliseconds
 for element in bambara_train:
-    arr1 = element['path'].split("PLAGE-")
+    arr1 = element['path'].split("pl-")
     arr2 = arr1[1].split(".wav")
     arr3 = arr2[0].split("-")
     print(arr3)
     start = float(arr3[0]) * 1000
     end = float(arr3[1]) * 1000
-    result = song[start:end]
+    result = new_song[start:end]
     # print(start)
     # print(end)
     # save file
